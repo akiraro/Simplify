@@ -51,11 +51,11 @@ const Auth = () => {
 	}, [])
 
 	return (
-		<div className="relative h-full w-full bg-violet-950 flex flex-col">
+		<div className="h-full w-full bg-gradient-to-t from-[#3b82f6] to-[#2dd4bf] flex flex-col">
 			<nav className="px-12 py-5">
-				<div className="text-zinc-300 italic font-semibold text-2xl">Simplify</div>
+				<div className="text-white italic font-semibold text-2xl">Simplify</div>
 			</nav>
-			<div className="h-screen flex justify-center">
+			<div className="h-full flex justify-center overflow-y-scroll">
 				<div className="bg-black bg-opacity-70 px-16 py-16 self-center lg:w-2/5 lg:max-w-lg rounded-md w-full">
 					<h2 className="text-3xl font-bold text-white">
 						{variant === 'login' ? 'Login' : 'Register'}
@@ -73,10 +73,10 @@ const Auth = () => {
 					<div className="flex flex-col">
 						<Input id="password" label="Password" onChange={(e: any) => setPassword(e.target.value)} type="password" value={password} placeholder="Your password" />
 					</div>
-					<button onClick={variant === 'login' ? login : register} className="my-3 w-full bg-indigo-700 py-3 text-white rounded-md hover:bg-indigo-800 transition">
+					<button onClick={variant === 'login' ? login : register} className="my-3 w-full bg-blue-600 bg-opacity-70 py-3 text-white rounded-md hover:bg-opacity-100 transition">
 						{variant === 'login' ? 'Login' : 'Register'}
 					</button>
-					<p className="text-neutral-500">
+					<p className="text-neutral-400">
 						{variant === 'login' ? 'First time using Simplify ?' : 'Already have an account?'}
 						<span onClick={toggleVariant} className="text-white ml-1 cursor-pointer hover:underline">
 							{variant === 'login' ? 'Create an account' : 'Login now'}
