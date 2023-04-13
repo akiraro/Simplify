@@ -6,7 +6,7 @@ import { NextPageContext } from "next"
 import { useRouter } from "next/router"
 import { enqueueSnackbar } from "notistack"
 
-const auth = () => {
+const Auth = () => {
 	const router = useRouter()
 
 	const [variant, setVariant] = useState('login')
@@ -34,7 +34,7 @@ const auth = () => {
 			console.error(error);
 			enqueueSnackbar('Error: ' + error, {variant: "error"})
 		}
-	}, [email, password])
+	}, [email, password, router])
 
 	const register = useCallback(async () => {
 		try {
@@ -88,7 +88,7 @@ const auth = () => {
 	)
 }
 
-export default auth
+export default Auth
 
 export async function getServerSideProps(context: NextPageContext){
 	const session = await getSession(context)
