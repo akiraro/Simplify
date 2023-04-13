@@ -1,12 +1,21 @@
+import useSimplify from "@/hooks/useSimplify"
 import { useRouter } from "next/router"
 import React from 'react'
 
 const slug = () => {
-	const router = useRouter()
-	const {slug} = router.query
-  return (
-	 <div>slug</div>
-  )
+	const { query, isReady } = useRouter()
+	const { slug } = query
+	const { data = {}, isLoading } = useSimplify(slug)
+
+	if (!isReady || isLoading){
+		return (<div>Loading ...</div>)
+	}
+
+	window.location.href = data.originalUrl;
+
+	return (
+		<div>Redirecting to {data?.originalUrl}</div>
+	)
 }
 
 export default slug

@@ -6,10 +6,12 @@ interface InputProps {
 	value: string;
 	label: string;
 	type?: string;
+	placeholder?: string;
+	required?: boolean
 }
 
 const Input: React.FC<InputProps> = ({
-	id, onChange, value, label, type
+	id, onChange, value, label, type, placeholder, required
 }) => {
 	return (
 		<div className="relative flex-col my-3">
@@ -19,7 +21,9 @@ const Input: React.FC<InputProps> = ({
 				value={value}
 				type={type}
 				onChange={onChange}
-				className="w-full block rounded px-5 py-3 text-md bg-neutral-300 focus:outline-none focus:bg-neutral-400"/>
+				placeholder={placeholder}
+				required={required}
+				className="w-full block rounded px-5 py-3 text-md bg-white focus:outline-none"/>
 		</div>
 	)
 }

@@ -63,15 +63,15 @@ const auth = () => {
 					{variant === 'register' &&
 						(
 							<div className="flex flex-col">
-								<Input id="name" label="Name" onChange={(e: any) => setName(e.target.value)} type="name" value={name} />
+								<Input id="name" label="Name" onChange={(e: any) => setName(e.target.value)} type="name" value={name} placeholder="Your name" />
 							</div>
 						)
 					}
 					<div className="flex flex-col">
-						<Input id="email" label="Email" onChange={(e: any) => setEmail(e.target.value)} type="email" value={email} />
+						<Input id="email" label="Email" onChange={(e: any) => setEmail(e.target.value)} type="email" value={email} placeholder="Your email" />
 					</div>
 					<div className="flex flex-col">
-						<Input id="password" label="Password" onChange={(e: any) => setPassword(e.target.value)} type="password" value={password} />
+						<Input id="password" label="Password" onChange={(e: any) => setPassword(e.target.value)} type="password" value={password} placeholder="Your password" />
 					</div>
 					<button onClick={variant === 'login' ? login : register} className="my-3 w-full bg-indigo-700 py-3 text-white rounded-md hover:bg-indigo-800 transition">
 						{variant === 'login' ? 'Login' : 'Register'}
