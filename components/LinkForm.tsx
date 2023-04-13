@@ -13,7 +13,7 @@ const VARIANT_CREATE = 'create'
 
 const LinkForm: React.FC<LinkFormProps> = ({ domain }) => {
 	const [isSlugUsed, setIsSlugUsed] = useState(false)
-	const [variant, setVariant] = useState(VARIANT_COPY)
+	const [variant, setVariant] = useState(VARIANT_CREATE)
 	const [form, setForm] = useState({ slug: '', originalUrl: '' })
 	const [response, setResponse] = useState({ slug: '' })
 
