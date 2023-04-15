@@ -40,5 +40,17 @@ model ShortUrl {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user  User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Visit Visit[]
+}
+
+model Visit {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  ipAddress  String
+  count      Int
+  shortUrlId String   @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  shortUrl ShortUrl @relation(fields: [shortUrlId], references: [id], onDelete: Cascade)
 }

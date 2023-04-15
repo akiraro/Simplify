@@ -56,7 +56,7 @@ const Auth = () => {
 				<div className="text-white italic font-semibold text-2xl">Simplify</div>
 			</nav>
 			<div className="h-full flex justify-center overflow-y-scroll">
-				<div className="bg-black bg-opacity-70 px-16 py-16 self-center lg:w-2/5 lg:max-w-lg rounded-md w-full">
+				<div className="bg-black bg-opacity-70 px-16 py-16 self-center lg:w-2/5 md:w-2/3 rounded-md w-full">
 					<h2 className="text-3xl font-bold text-white">
 						{variant === 'login' ? 'Login' : 'Register'}
 					</h2>
