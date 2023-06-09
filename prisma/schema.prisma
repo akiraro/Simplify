@@ -53,4 +53,24 @@ model Visit {
   updatedAt  DateTime @updatedAt
 
   shortUrl ShortUrl @relation(fields: [shortUrlId], references: [id], onDelete: Cascade)
+  ipGeo    IPGeo?
+}
+
+model IPGeo {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  ipAddress      String
+  continentCode  String
+  continentName  String
+  countryCode2   String
+  countryCode3   String
+  countryName    String
+  countryCapital String
+  latitude       Float
+  longitude      Float
+  countryFlag    String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  visitId        String   @unique @db.ObjectId
+
+  visit Visit @relation(fields: [visitId], references: [id])
 }

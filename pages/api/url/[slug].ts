@@ -48,11 +48,26 @@ export default async function handler(
 		});
 
 		if (visits.length === 0) { // Create new visit
+			const ipData = await fetch(`https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.IPGEO_APIKEY}&ip=${ipAddress}`).then((response) => response.json())
 			const visit = await prismadb.visit.create({
 				data: {
 					ipAddress,
 					shortUrlId: shortUrl.id,
 					count: 1,
+					ipGeo: {
+						create: {
+							ipAddress,
+							continentCode: ipData.continent_code,
+							continentName: ipData.continent_name,
+							countryCode2: ipData.country_code2,
+							countryCode3: ipData.country_code3,
+							countryName: ipData.country_name,
+							countryCapital: ipData.country_capital,
+							latitude: parseFloat(ipData.latitude),
+							longitude: parseFloat(ipData.longitude),
+							countryFlag: ipData.country_flag
+						}
+					}
 				},
 			});
 		} else if (visits.length === 1) { // Update count
