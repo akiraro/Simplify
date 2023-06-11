@@ -9,33 +9,55 @@ export default async function handler(
 	try {
 		const { currentUser } = await serverAuth(req, res)
 
-		if (req.method !== "POST") {
+		if (req.method === "POST"){
+			const { slug, originalUrl } = req.body;
+
+			const existingUrl = await prismadb.shortUrl.findFirst({
+				where: {
+					slug,
+				},
+			});
+	
+			if (existingUrl) {
+				return res
+					.status(422)
+					.json({ error: "Url with the slug is already exists" });
+			}
+	
+			const shortUrl = await prismadb.shortUrl.create({
+				data: {
+					userId: currentUser.id,
+					originalUrl,
+					slug
+				}
+			})
+	
+			return res.status(200).json(shortUrl)
+		}
+		else if (req.method === "GET"){
+			const query = req.query
+			const page: number = parseInt(query?.page as string, 10) || 1
+			const pageSize: number = parseInt(query?.page_size as string) || 20
+			const search: string = query?.search as string || ''
+
+			const urls = await prismadb.shortUrl.findMany({
+				where: {
+					userId: {
+						in: currentUser.id
+					},
+					slug: {
+						contains: search
+					}
+				},
+				skip: (page - 1) * pageSize,
+				take: pageSize,
+			})
+
+			return res.status(200).json(urls)
+
+		}else{
 			return res.status(405).end();
 		}
-
-		const { slug, originalUrl } = req.body;
-
-		const existingUrl = await prismadb.shortUrl.findFirst({
-			where: {
-				slug,
-			},
-		});
-
-		if (existingUrl) {
-			return res
-				.status(422)
-				.json({ error: "Url with the slug is already exists" });
-		}
-
-		const shortUrl = await prismadb.shortUrl.create({
-			data: {
-				userId: currentUser.id,
-				originalUrl,
-				slug
-			}
-		})
-
-		return res.status(200).json(shortUrl)
 
 
 	} catch (error) {

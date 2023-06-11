@@ -2,7 +2,6 @@ import LinkForm from "@/components/LinkForm";
 import Navbar from "@/components/Navbar";
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
-import { signOut } from "next-auth/react";
 
 interface HomeProps {
   domain: string
