@@ -5,16 +5,22 @@ import React from 'react'
 const Slug = () => {
 	const { query, isReady } = useRouter()
 	const { slug } = query
-	const { data = {}, isLoading } = useSimplify(slug)
+	const { data = {}, error, isLoading } = useSimplify(slug)
 
 	if (!isReady || isLoading){
 		return (<div>Loading ...</div>)
 	}
 
-	window.location.href = data.originalUrl;
+	if (error?.request?.status !== 400) {
+		window.location.href = data.originalUrl;
+
+		return (
+			<div>Redirecting to {data?.originalUrl}</div>
+		)
+	}
 
 	return (
-		<div>Redirecting to {data?.originalUrl}</div>
+		<div>404</div>
 	)
 }
 
