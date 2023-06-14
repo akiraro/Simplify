@@ -45,12 +45,13 @@ model ShortUrl {
 }
 
 model Visit {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  ipAddress  String
-  count      Int
-  shortUrlId String   @db.ObjectId
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  ipAddress     String
+  count         Int
+  shortUrlId    String   @db.ObjectId
+  createdAtDate DateTime? @db.Date @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   shortUrl ShortUrl @relation(fields: [shortUrlId], references: [id], onDelete: Cascade)
   ipGeo    IPGeo?
