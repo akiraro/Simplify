@@ -13,7 +13,7 @@ const initialUrlState: ShortUrl = {
 	slug: ''
 }
 
-const dashboard = () => {
+const Dashboard = () => {
 	const { data = [], error, isLoading } = useUrls()
 	const [urlData, setUrlData] = useState<ShortUrl>(initialUrlState)
 
@@ -46,7 +46,7 @@ const dashboard = () => {
 	)
 }
 
-export default dashboard
+export default Dashboard
 
 export async function getServerSideProps(context: NextPageContext) {
 	const session = await getSession(context)
