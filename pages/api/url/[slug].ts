@@ -48,7 +48,10 @@ export default async function handler(
 		});
 
 		if (visits.length === 0) { // Create new visit
+			console.log(process.env.IPGEO_APIKEY);
 			const ipData = await fetch(`https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.IPGEO_APIKEY}&ip=${ipAddress}`).then((response) => response.json())
+			console.log(ipData);
+			console.log(shortUrl);
 			const visit = await prismadb.visit.create({
 				data: {
 					ipAddress,
