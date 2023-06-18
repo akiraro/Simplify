@@ -4,21 +4,34 @@ import { REPORT_TYPE_DAY } from '@/lib/constants'
 import { ShortUrl } from '@/lib/interfaces'
 import { generateDate } from "@/utils/dateGenerator"
 import { useState } from "react"
-import { BarChart, XAxis, YAxis, Tooltip, Bar, ResponsiveContainer } from "recharts"
+import 'react-tooltip/dist/react-tooltip.css'
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import MapChart from "./MapChart"
 
+/**
+ * Interfaces
+ */
 interface ReportProps {
 	data: ShortUrl
 }
 
+/**
+ * Local initial value
+ */
 const initialDateRange = {
 	startDate: new Date(),
 	endDate: new Date(new Date().setDate(new Date().getDate() - 7))
 }
 
+const initialReport = {
+	visits: [],
+	geolocations: []
+}
+
 const Report = ({ data }: ReportProps) => {
 	const [dateRange, setDateRange] = useState(initialDateRange)
-	const { data: report = [], error, isLoading } = useReport(data.id, REPORT_TYPE_DAY)
-	const generalReport = generateDate(report, dateRange)
+	const { data: reportData = initialReport, error, isLoading } = useReport(data.id, REPORT_TYPE_DAY)
+	const generalReport = generateDate(reportData.visits, dateRange)
 
 	return (
 		<>
@@ -38,6 +51,9 @@ const Report = ({ data }: ReportProps) => {
 						<Bar dataKey="visit" fill="#8884d8" />
 					</BarChart>
 				</ResponsiveContainer>
+			</Card>
+			<Card className="mt-5">
+				<MapChart geolocations={reportData.geolocations} />
 			</Card>
 		</>
 	)

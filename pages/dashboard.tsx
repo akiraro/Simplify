@@ -18,7 +18,7 @@ const Dashboard = () => {
 	const [urlData, setUrlData] = useState<ShortUrl>(initialUrlState)
 
 	return (
-		<div className="relative h-screen w-full bg-gradient-to-t from-[#3b82f6] to-[#2dd4bf] flex flex-col">
+		<div className="relative h-screen w-full bg-gradient-to-t from-[#3b82f6] to-[#2dd4bf] flex flex-col overflow-auto">
 			<Navbar />
 			<div className="h-full px-12 ">
 				<div className="text-white italic text-lg">Links Statistic</div>
