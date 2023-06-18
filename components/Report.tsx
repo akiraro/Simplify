@@ -4,7 +4,6 @@ import { REPORT_TYPE_DAY } from '@/lib/constants'
 import { ShortUrl } from '@/lib/interfaces'
 import { generateDate } from "@/utils/dateGenerator"
 import { useState } from "react"
-import 'react-tooltip/dist/react-tooltip.css'
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import MapChart from "./MapChart"
 
@@ -53,6 +52,7 @@ const Report = ({ data }: ReportProps) => {
 				</ResponsiveContainer>
 			</Card>
 			<Card className="mt-5">
+				Geolocation
 				<MapChart geolocations={reportData.geolocations} />
 			</Card>
 		</>

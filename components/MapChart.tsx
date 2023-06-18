@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useMemo } from 'react';
 import {
 	ComposableMap,
 	Geographies,
@@ -6,12 +6,31 @@ import {
 	ZoomableGroup
 } from "react-simple-maps";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { scaleLinear } from "d3-scale";
 
 /**
  * Interfaces
  */
 interface MapChartProps {
-	geolocations: Record<string, any>
+	geolocations: Record<string, any>[]
+}
+
+/**
+ * Helper function to initialize color scale
+ */
+const initializeColorScale = (geolocations: Record<string,any>[]) => {
+	if (geolocations.length == 0) {
+		return () => '#D6D6DA'
+	}
+
+	const highestScale = geolocations.reduce((max: Record<string,any>, location: Record<string,any>) => 
+		max.count > location.count ? max : location
+	)
+
+	return scaleLinear<string, number>()
+		.domain([0, highestScale.count])
+		// .range(["#ffedea", "#ff5233"]);
+		.range(["#2dd4bf", "#3b82f6"]);
 }
 
 /**
@@ -27,48 +46,58 @@ const geoUrl =
 
 const MapChart: React.FC<MapChartProps> = ({ geolocations }) => {
 	const [content, setContent] = useState(initialTooltipContent);
+	const colorScale = useMemo(() => initializeColorScale(geolocations), [geolocations])
+
 	return (
 		<>
 			<ComposableMap data-tooltip-id='map-tooltip'>
 				<ZoomableGroup>
 					<Geographies geography={geoUrl}>
 						{({ geographies }) =>
-							geographies.map((geo) => (
-								<Geography
-									key={geo.rsmKey}
-									geography={geo}
-									onMouseEnter={() => {
-										var data = geolocations.find((geolocation: Record<string,any>) => {
-											return geo.properties.name === geolocation._id.country
-										})
+							geographies.map((geo) => {
+								var data: Record<string,any> | undefined
+								
+								if (geolocations.length != 0) {
+									data = geolocations.find((geolocation) => {
+										return geo.properties.name === geolocation._id.country
+									})
+								} else {
+									data = {}
+								}
 
-										setContent({
-											country: geo.properties.name || '',
-											visit: data?.count || 0
-										});
-									}}
-									onMouseLeave={() => {
-										setContent({
-											country: '',
-											visit: 0
-										});
-									}}
-									style={{
-										default: {
-											fill: "#D6D6DA",
-											outline: "none"
-										},
-										hover: {
-											fill: "#F53",
-											outline: "none"
-										},
-										pressed: {
-											fill: "#E42",
-											outline: "none"
-										}
-									}}
-								/>
-							))
+								return (
+									<Geography
+										key={geo.rsmKey}
+										geography={geo}
+										onMouseEnter={() => {
+											setContent({
+												country: geo.properties.name || '',
+												visit: data?.count || 0
+											});
+										}}
+										onMouseLeave={() => {
+											setContent({
+												country: '',
+												visit: 0
+											});
+										}}
+										style={{
+											default: {
+												fill: data ? colorScale(data?.count) as string | undefined: '#D6D6DA',
+												outline: "none"
+											},
+											hover: {
+												fill: "#ff5233",
+												outline: "none"
+											},
+											pressed: {
+												fill: "#E42",
+												outline: "none"
+											}
+										}}
+									/>
+								)
+							})
 						}
 					</Geographies>
 				</ZoomableGroup>
@@ -77,7 +106,7 @@ const MapChart: React.FC<MapChartProps> = ({ geolocations }) => {
 				{content?.country && (
 					<>
 						<span className="text-[#3b82f6] text-xl font-bold">{content?.country}</span>
-						<span className="text-[#2dd4bf] text-center">Visit: {content?.visit}</span>
+						<span className="text-[#2dd4bf] text-center">Visitor: {content?.visit}</span>
 					</>
 				)}
 			</ReactTooltip>
