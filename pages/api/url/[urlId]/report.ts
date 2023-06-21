@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { REPORT_TYPE_MONTHLY, REPORT_TYPE_WEEKLY } from "@/lib/constants";
 import prismadb from "@/lib/prismadb";
 import serverAuth from "@/lib/serverAuth";
-import { REPORT_TYPE_WEEKLY, REPORT_TYPE_MONTHLY } from "@/lib/constants";
 import moment from "moment";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
 	req: NextApiRequest,
@@ -12,14 +12,14 @@ export default async function handler(
 		const { currentUser } = await serverAuth(req, res);
 		const urlId: string = (req.query.urlId as string) || "";
 		const reportType = (req.query?.reportType as string) || REPORT_TYPE_WEEKLY;
-		const date = moment(req.query.date as string, "DD-MM-YYYY") || moment();
+		const date = req.query?.date
+			? moment(req.query?.date as string, "DD-MM-YYYY")
+			: moment();
 		let visits = {};
 		let geolocations = {};
 
-		if (
-			reportType !== REPORT_TYPE_MONTHLY &&
-			reportType !== REPORT_TYPE_WEEKLY
-		) return res.status(400).json({ error: "Invalid type" });
+		if (reportType !== REPORT_TYPE_MONTHLY && reportType !== REPORT_TYPE_WEEKLY)
+			return res.status(400).json({ error: "Invalid type" });
 
 		let endDate;
 
@@ -28,7 +28,7 @@ export default async function handler(
 		} else {
 			endDate = moment(date.toDate()).subtract("1", "months");
 		}
-
+		
 		visits = await prismadb.visit.aggregateRaw({
 			pipeline: [
 				{
@@ -41,24 +41,23 @@ export default async function handler(
 										"$createdAt",
 										{
 											$dateFromString: {
-												dateString: date.toISOString()
-											}
-										}
-									]
+												dateString: date.toISOString(),
+											},
+										},
+									],
 								},
 								{
 									$gte: [
 										"$createdAt",
 										{
 											$dateFromString: {
-												dateString: endDate.toISOString()
-											}
-										}
-									]
-								}
-							]
-
-						}
+												dateString: endDate.toISOString(),
+											},
+										},
+									],
+								},
+							],
+						},
 					},
 				},
 				{
@@ -87,24 +86,23 @@ export default async function handler(
 										"$createdAt",
 										{
 											$dateFromString: {
-												dateString: date.toISOString()
-											}
-										}
-									]
+												dateString: date.toISOString(),
+											},
+										},
+									],
 								},
 								{
 									$gte: [
 										"$createdAt",
 										{
 											$dateFromString: {
-												dateString: endDate.toISOString()
-											}
-										}
-									]
-								}
-							]
-
-						}
+												dateString: endDate.toISOString(),
+											},
+										},
+									],
+								},
+							],
+						},
 					},
 				},
 				{

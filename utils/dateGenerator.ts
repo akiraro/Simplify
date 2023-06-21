@@ -1,8 +1,14 @@
 import { Report, DateRange } from '@/lib/interfaces'
 
 
-const formatDate = (date: Date) => {
-	return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
+export const formatDate = (date: Date | string) => {
+
+	if (typeof date == 'string'){
+		date = new Date(date)
+	}
+	
+
+	return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
 }
 
 interface DateReport {
@@ -19,7 +25,7 @@ export const generateDate = (reports: Report[], range: DateRange) => {
 			name: formatDate(startDate),
 			visit: 0
 		})
-		startDate.setDate(startDate.getDate() - 1)
+		startDate.setDate(startDate.getDate() + 1)
 	}
 
 	reports.forEach((report) => {
