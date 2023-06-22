@@ -6,11 +6,13 @@ import { ShortUrl } from '@/lib/interfaces';
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import { useState } from 'react';
+import { formatDate } from '@/utils/dateGenerator'
 
 const initialUrlState: ShortUrl = {
 	id: '',
 	originalUrl: '',
-	slug: ''
+	slug: '',
+	createdAt: ''
 }
 
 const Dashboard = () => {
@@ -20,17 +22,22 @@ const Dashboard = () => {
 	return (
 		<div className="relative h-screen w-full bg-gradient-to-t from-[#3b82f6] to-[#2dd4bf] flex flex-col overflow-auto">
 			<Navbar />
-			<div className="h-full px-12 ">
-				<div className="text-white italic text-lg">Links Statistic</div>
+			<div className="h-full px-12">
+				<div className="text-white italic text-3xl font-bold">URL Report</div>
 
 				<div className="border-solid border-slate-200 border-2 flex rounded-md">
 					<ul className="w-1/6 border-solid border-white border-r-2 bg-slate-200 opacity-80">
 						{data.map((url: ShortUrl) => (
 							<li
 								key={url.id}
-								className="p-4 border-solid border-white border-b-2 cursor-pointer"
+								className={`${urlData.id == url.id ? 'bg-slate-300': ''} p-4 border-solid border-white border-b-2 cursor-pointer hover:opacity-80`}
 								onClick={() => { setUrlData(url) }}
-							>{url.slug}</li>
+							>
+								<div className="flex flex-col">
+									<div className={`${urlData.id == url.id ? 'text-[#3b82f6]': ''} text-2xl font-bold`}>{url.slug}</div>
+									<div className={`${urlData.id == url.id ? 'text-[#3b82f6]': ''} italic`}>{formatDate(url.createdAt)}</div>
+								</div>
+							</li>
 						))}
 					</ul>
 					<div className="w-5/6 p-5 bg-slate-200 opacity-80">

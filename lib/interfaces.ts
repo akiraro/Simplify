@@ -2,6 +2,7 @@ export interface ShortUrl {
 	id: string
 	originalUrl: string
 	slug: string
+	createdAt: string
 }
 
 export interface Report {
