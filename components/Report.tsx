@@ -58,7 +58,7 @@ const Report = ({ data }: ReportProps) => {
 			date: formatDate(dateRange.endDate)
 		})
 		mutate()
-	}, [dateRange, reportType])
+	}, [dateRange, reportType, mutate])
 
 	const handleReportTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setReportType((prevValue) => {
