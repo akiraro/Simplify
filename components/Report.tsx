@@ -2,7 +2,8 @@ import { Card } from '@/components/Card'
 import useReport from '@/hooks/useReport'
 import { REPORT_TYPE_MONTHLY, REPORT_TYPE_WEEKLY } from '@/lib/constants'
 import { ShortUrl } from '@/lib/interfaces'
-import { formatDate, generateDate } from "@/utils/dateGenerator"
+import { formatDate } from "@/utils/dateUtils"
+import { generateReport } from "@/utils/reportUtils"
 import Switch from '@mui/material/Switch'
 import { useEffect, useState } from "react"
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
@@ -50,7 +51,7 @@ const Report = ({ data }: ReportProps) => {
 		error,
 		isLoading
 	} = useReport(data.id, queryParams)
-	const generalReport = generateDate(reportData.visits, dateRange)
+	const generalReport = generateReport(reportData.visits, dateRange)
 
 	useEffect(() => {
 		setQueryParams({

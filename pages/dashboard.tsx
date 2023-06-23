@@ -6,7 +6,7 @@ import { ShortUrl } from '@/lib/interfaces';
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import { useState } from 'react';
-import { formatDate } from '@/utils/dateGenerator'
+import { formatDate } from '@/utils/dateUtils'
 
 const initialUrlState: ShortUrl = {
 	id: '',

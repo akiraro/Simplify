@@ -1,6 +1,6 @@
 import React from 'react'
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
-import { formatDate } from "@/utils/dateGenerator"
+import { formatDate } from "@/utils/dateUtils"
 import { REPORT_TYPE_MONTHLY, REPORT_TYPE_WEEKLY } from '@/lib/constants'
 import moment from "moment";
 

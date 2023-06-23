@@ -64,7 +64,7 @@ export default async function handler(
 					$group: {
 						_id: {
 							$dateToString: {
-								format: reportType == REPORT_TYPE_WEEKLY ? "%Y-%m-%d" : "%Y-%m",
+								format: reportType == REPORT_TYPE_WEEKLY ? "%m-%d-%Y" : "%m-%Y",
 								date: "$createdAt",
 							},
 						},
