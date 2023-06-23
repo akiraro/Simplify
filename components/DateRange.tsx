@@ -1,6 +1,6 @@
 import React from 'react'
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
-import { formatDate } from "@/utils/dateUtils"
+import { formatFullDate, formatMonthDate } from "@/utils/dateUtils"
 import { REPORT_TYPE_MONTHLY, REPORT_TYPE_WEEKLY } from '@/lib/constants'
 import moment from "moment";
 
@@ -13,7 +13,7 @@ interface DateRangeProps {
 type rangeType = 'increment' | 'decrement'
 
 const DateRange: React.FC<DateRangeProps> = ({dateRange, onDateChanged, dateType}) => {
-
+	
 	const onRangeClicked = (type: rangeType) => {
 		if (type === 'increment'){
 			onDateChanged({
@@ -31,7 +31,19 @@ const DateRange: React.FC<DateRangeProps> = ({dateRange, onDateChanged, dateType
 	return (
 		<div className="flex flex-row justify-between items-center">
 			<BiChevronLeft size={20} className="cursor-pointer hover:opacity-70" onClick={() => onRangeClicked('decrement')} />
-			<div className="px-6">{formatDate(dateRange.startDate)} - {formatDate(dateRange.endDate)}</div>
+			<div className="px-6">
+				{
+				dateType === REPORT_TYPE_WEEKLY
+					? formatFullDate(dateRange.startDate)
+					: formatMonthDate(dateRange.startDate)
+				} 
+				- 
+				{
+				dateType === REPORT_TYPE_WEEKLY
+					? formatFullDate(dateRange.endDate)
+					: formatMonthDate(dateRange.endDate)
+				}
+			</div>
 			<BiChevronRight size={20} className="cursor-pointer hover:opacity-70" onClick={() => onRangeClicked('increment')}/>
 		</div>
 	)

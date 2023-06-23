@@ -6,7 +6,7 @@ import { ShortUrl } from '@/lib/interfaces';
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import { useState } from 'react';
-import { formatDate } from '@/utils/dateUtils'
+import { formatFullDate } from '@/utils/dateUtils'
 
 const initialUrlState: ShortUrl = {
 	id: '',
@@ -35,7 +35,7 @@ const Dashboard = () => {
 							>
 								<div className="flex flex-col">
 									<div className={`${urlData.id == url.id ? 'text-[#3b82f6]': ''} text-2xl font-bold`}>{url.slug}</div>
-									<div className={`${urlData.id == url.id ? 'text-[#3b82f6]': ''} italic`}>{formatDate(url.createdAt)}</div>
+									<div className={`${urlData.id == url.id ? 'text-[#3b82f6]': ''} italic`}>{formatFullDate(url.createdAt)}</div>
 								</div>
 							</li>
 						))}

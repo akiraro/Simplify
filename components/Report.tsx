@@ -2,7 +2,7 @@ import { Card } from '@/components/Card'
 import useReport from '@/hooks/useReport'
 import { REPORT_TYPE_MONTHLY, REPORT_TYPE_WEEKLY } from '@/lib/constants'
 import { ShortUrl } from '@/lib/interfaces'
-import { formatDate } from "@/utils/dateUtils"
+import { formatFullDate } from "@/utils/dateUtils"
 import { generateReport } from "@/utils/reportUtils"
 import Switch from '@mui/material/Switch'
 import { useEffect, useState } from "react"
@@ -22,7 +22,7 @@ interface ReportProps {
  */
 const initialDateRange = {
 	endDate: new Date(),
-	startDate: new Date(new Date().setDate(new Date().getDate() - 7)),
+	startDate: new Date(new Date().setDate(new Date().getDate() - 6)),
 }
 
 const initialReport = {
@@ -32,7 +32,7 @@ const initialReport = {
 
 const initialQueryParams = {
 	type: REPORT_TYPE_WEEKLY,
-	date: formatDate(new Date())
+	date: formatFullDate(new Date())
 }
 
 /**
@@ -45,27 +45,41 @@ const Report = ({ data }: ReportProps) => {
 	const [dateRange, setDateRange] = useState(initialDateRange)
 	const [reportType, setReportType] = useState(REPORT_TYPE_WEEKLY)
 	const [queryParams, setQueryParams] = useState(initialQueryParams)
+	
 	const {
 		data: reportData = initialReport,
 		mutate,
 		error,
 		isLoading
 	} = useReport(data.id, queryParams)
-	const generalReport = generateReport(reportData.visits, dateRange)
+	let generalReport = generateReport(reportData.visits, dateRange, reportType)
 
 	useEffect(() => {
 		setQueryParams({
 			type: reportType,
-			date: formatDate(dateRange.endDate)
+			date: formatFullDate(dateRange.endDate)
 		})
 		mutate()
-	}, [dateRange, reportType, mutate])
+	}, [dateRange, reportType, mutate, isLoading])
+
+	useEffect(() => {
+		generalReport = generateReport(reportData.visits, dateRange, reportType)
+	}, [reportData])
+
 
 	const handleReportTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setReportType((prevValue) => {
 			if (prevValue === REPORT_TYPE_WEEKLY) {
+				setDateRange({
+					endDate: new Date(),
+					startDate: new Date(new Date().setMonth(new Date().getMonth() - 6)),
+				})
 				return REPORT_TYPE_MONTHLY
 			} else {
+				setDateRange({
+					endDate: new Date(),
+					startDate: new Date(new Date().setDate(new Date().getDate() - 6)),
+				})
 				return REPORT_TYPE_WEEKLY
 			}
 		})
