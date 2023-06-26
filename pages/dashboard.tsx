@@ -25,8 +25,8 @@ const Dashboard = () => {
 			<div className="h-full px-12">
 				<div className="text-white italic text-3xl font-bold">URL Report</div>
 
-				<div className="border-solid border-slate-200 border-2 flex rounded-md">
-					<ul className="w-1/6 border-solid border-white border-r-2 bg-slate-200 opacity-80">
+				<div className="border-solid border-slate-200 border-2 flex flex-wrap rounded-md">
+					<ul className="w-full border-solid border-white border-r-2 bg-slate-200 opacity-80 sm:w-1/6">
 						{data.map((url: ShortUrl) => (
 							<li
 								key={url.id}
@@ -40,7 +40,7 @@ const Dashboard = () => {
 							</li>
 						))}
 					</ul>
-					<div className="w-5/6 p-5 bg-slate-200 opacity-80">
+					<div className="w-full p-5 bg-slate-200 opacity-80 sm:w-5/6">
 						{urlData.id == '' && 'No url is selected'}
 						{urlData.id != '' &&
 							<Report data={urlData} />

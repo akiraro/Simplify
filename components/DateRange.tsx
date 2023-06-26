@@ -7,12 +7,13 @@ import moment from "moment";
 interface DateRangeProps {
 	dateRange: Record<string, Date>
 	onDateChanged: Function
-	dateType: string
+	dateType: string,
+	className?: string
 }
 
 type rangeType = 'increment' | 'decrement'
 
-const DateRange: React.FC<DateRangeProps> = ({dateRange, onDateChanged, dateType}) => {
+const DateRange: React.FC<DateRangeProps> = ({dateRange, onDateChanged, dateType, className}) => {
 	
 	const onRangeClicked = (type: rangeType) => {
 		if (type === 'increment'){
@@ -29,7 +30,7 @@ const DateRange: React.FC<DateRangeProps> = ({dateRange, onDateChanged, dateType
 	}
 	
 	return (
-		<div className="flex flex-row justify-between items-center">
+		<div className={`${className} flex flex-row justify-between items-center`}>
 			<BiChevronLeft size={20} className="cursor-pointer hover:opacity-70" onClick={() => onRangeClicked('decrement')} />
 			<div className="px-6">
 				{

@@ -2,7 +2,7 @@ import React from 'react'
 
 type Props = {
 	children?: React.ReactNode
-	className?: String
+	className?: string
 };
 
 export const Card: React.FC<Props> = ({ children, className }) => {

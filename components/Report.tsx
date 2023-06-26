@@ -87,7 +87,7 @@ const Report = ({ data }: ReportProps) => {
 
 	const ReportType = () => {
 		return (
-			<div>
+			<div className="w-full text-center sm:w-auto sm:pb-0">
 				<span>Weekly</span>
 				<Switch
 					checked={reportType === REPORT_TYPE_WEEKLY ? false : true}
@@ -108,13 +108,13 @@ const Report = ({ data }: ReportProps) => {
 				</div>
 			</Card>
 
-			<Card className="mt-5 flex justify-between rounded-b-none border-b-2">
-				<div className="text-3xl font-bold">Report</div>
-				<DateRange dateRange={dateRange} onDateChanged={setDateRange} dateType={reportType} />
-				<ReportType />
+			<Card className="mt-5 flex flex-wrap justify-between rounded-b-none border-b-2">
+				<div className="text-3xl font-bold w-full text-center pb-3 sm:w-auto sm:pb-0">Report</div>
+				<DateRange className="w-full text-center pb-3 sm:w-auto sm:pb-0" dateRange={dateRange} onDateChanged={setDateRange} dateType={reportType} />
+				<ReportType/>
 			</Card>
 
-			<Card className="rounded-t-none">
+			<Card className="rounded-t-none overflow-scroll">
 				<div className="m-2">Visit count</div>
 				<ResponsiveContainer minHeight={300} minWidth={300} width="100%" height="80%">
 					<BarChart data={generalReport} >
@@ -126,7 +126,7 @@ const Report = ({ data }: ReportProps) => {
 				</ResponsiveContainer>
 			</Card>
 
-			<Card className="mt-5">
+			<Card className="mt-5  overflow-scroll">
 				<div className="m-2">Geolocation</div>
 				<MapChart geolocations={reportData.geolocations} />
 			</Card>
