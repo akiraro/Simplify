@@ -7,6 +7,7 @@ import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import { useState } from 'react';
 import { formatFullDate } from '@/utils/dateUtils'
+import MainLayout from "@/components/MainLayout";
 
 const initialUrlState: ShortUrl = {
 	id: '',
@@ -20,8 +21,7 @@ const Dashboard = () => {
 	const [urlData, setUrlData] = useState<ShortUrl>(initialUrlState)
 
 	return (
-		<div className="relative h-screen w-full bg-gradient-to-t from-[#3b82f6] to-[#2dd4bf] flex flex-col overflow-auto">
-			<Navbar />
+		<MainLayout>
 			<div className="h-full px-12">
 				<div className="text-white italic text-3xl font-bold">URL Report</div>
 
@@ -47,9 +47,8 @@ const Dashboard = () => {
 						}
 					</div>
 				</div>
-
 			</div>
-		</div>
+		</MainLayout>
 	)
 }
 

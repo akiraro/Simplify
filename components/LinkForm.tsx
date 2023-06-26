@@ -71,7 +71,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ domain }) => {
 
 					<div className="bg-black bg-opacity-20 p-6 rounded-md mt-3">
 						<p className="text-white text-md">Simplify URL {isSlugUsed && <span className="ml-2 text-red-500">Already in use</span>}</p>
-						<div className="mt-3 flex flex-col lg:flex-row md:flex-row">
+						<div className="mt-3 flex flex-col items-center lg:flex-row md:flex-row">
 							<span className="text-white text-xl">simplify.com/</span>
 							<input
 								placeholder="alias e.g mytwitterhandler"
