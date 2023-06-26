@@ -27,7 +27,7 @@ export const generateReport = (reports: Report[], range: DateRange, type: string
 	reports.forEach((report) => {
 		const formattedDate =  
 			type === REPORT_TYPE_WEEKLY 
-				? formatFullDate(new Date(report._id))
+				? formatFullDate(moment(report._id, "MM-DD-YYYY").toDate())
 				: formatMonthDate(moment(report._id, "MM-YYYY").toDate())
 
 		retVal.forEach((date) => {
